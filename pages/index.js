@@ -15,7 +15,7 @@ export default function Home() {
       <div class="w-80 mx-auto grid grid-cols-1 gap-4">
         <button
           class="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded"
-          onClick={() => router.push("/story")}
+          onClick={() => router.push("/start")}
         >
           시작하기
         </button>
