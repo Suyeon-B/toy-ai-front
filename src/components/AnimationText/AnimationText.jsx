@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const AnimationText = ({ text, delay = 50 }) => {
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -16,9 +16,9 @@ export const AnimationText = ({ text, delay = 50 }) => {
   }, [currentIndex, delay]);
 
   useEffect(() => {
-    setDisplayText('');
+    setDisplayText("");
     setCurrentIndex(0);
-  }, [text])
+  }, [text]);
 
-  return <p class="text-gray-900">{displayText}</p>;
+  return <p className="text-gray-900">{displayText}</p>;
 };
