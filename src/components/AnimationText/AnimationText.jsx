@@ -1,26 +1,24 @@
 import { useEffect, useState } from "react";
 
-export const AnimationText = ({ textDate }) => {
-  console.log(
-    "🚀 ~ file: AnimationText.jsx:4 ~ AnimationText ~ textDate:",
-    textDate
-  );
-
-  const [text, setText] = useState("");
+export const AnimationText = ({ text, delay = 50 }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (textDate.length <= text.length) {
-        clearInterval(interval);
-      } else {
-        setText((text) => textDate.slice(0, text.length + 1));
-      }
-    }, 50);
+    if (currentIndex < text.length) {
+      const timer = setTimeout(() => {
+        setDisplayText((prevText) => prevText + text[currentIndex]);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+      }, delay);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [textDate, text]);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, delay]);
 
-  return <p class="text-gray-900">{text}</p>;
+  useEffect(() => {
+    setDisplayText('');
+    setCurrentIndex(0);
+  }, [text])
+
+  return <p class="text-gray-900">{displayText}</p>;
 };

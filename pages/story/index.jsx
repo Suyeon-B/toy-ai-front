@@ -21,6 +21,16 @@ const Index = () => {
 
   return (
     <>
+      {/* <header className="flex justify-center items-center">
+        <div>
+          <img
+            className="h-8 w-auto"
+            src="/Logo.svg"
+            alt="로고 이미지"
+            style={{ width: "40px" }}
+          />
+        </div>
+      </header> */}
       <div class="relative pt-1">
         <div class="text-right">
           <span class="text-xs font-semibold inline-block text-blue-600">
@@ -44,7 +54,7 @@ const Index = () => {
       </div>
 
       {/* 자막 */}
-      <AnimationText textDate={data.content} />
+      <AnimationText text={data.content} />
 
       {/* 버튼 */}
       <div class="w-80 mx-auto grid grid-cols-1 gap-4">
@@ -59,6 +69,13 @@ const Index = () => {
           </button>
         ))}
       </div>
+      {/* <footer class="bg-gray-300 py-4 mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center items-center">
+          <span class="text-gray-600 text-sm">
+            &copy; 2023 책너두 All rights reserved.
+          </span>
+        </div>
+      </footer> */}
     </>
   );
 };
