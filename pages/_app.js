@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import Layout from "@/src/components/layout";
+import Layout from "@/src/components/layout/Layout";
 import { useEffect } from "react";
 
 export default function App({ Component, pageProps }) {
