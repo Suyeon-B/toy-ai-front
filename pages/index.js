@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Inter } from "next/font/google";
+import { KakaoShareButton } from "@/src/components/KakaoShareButton/KakaoShareButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,6 +51,8 @@ export default function Home() {
           버튼4
         </button>
       </div>
+      <KakaoShareButton />
+
       <footer class="bg-gray-300 py-4 mt-auto">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center items-center">
           <span class="text-gray-600 text-sm">

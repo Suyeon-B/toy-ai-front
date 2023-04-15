@@ -1,4 +1,3 @@
-// components/KakaoShareButton.js
 import React from 'react';
 
 export const KakaoShareButton = () => {
