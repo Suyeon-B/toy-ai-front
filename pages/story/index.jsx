@@ -12,12 +12,6 @@ const Index = () => {
   };
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   const res = await fetch("http://localhost:3000/api/0"); // 서버에서 데이터를 가져옴
-    //   const data = await res.json();
-
-    //   setData(data);
-    // };
     fetchData(0);
   }, []);
 
