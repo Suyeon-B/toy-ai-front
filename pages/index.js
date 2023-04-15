@@ -5,20 +5,15 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <div class="flex flex-col min-h-screen bg-gray-100 text-black">
-      <header class="flex justify-center items-center">
-        <div>
-          <img class="h-8 w-auto" src="logo.png" alt="로고 이미지" />
+    <div className="max-w-screen-md mx-auto px-20">
+      <div class="relative pt-1">
+        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-primary-light">
+          <div
+            style={{ width: "78%" }}
+            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary transition-all duration-500 ease-out"
+          ></div>
         </div>
-      </header>
-
-      <footer class="bg-gray-300 py-4 mt-auto">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center items-center">
-          <span class="text-gray-600 text-sm">
-            &copy; 2023 책너두 All rights reserved.
-          </span>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 }
