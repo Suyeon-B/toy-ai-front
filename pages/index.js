@@ -1,5 +1,4 @@
 import { Inter } from "next/font/google";
-import { KakaoShareButton } from "@/components/KakaoShareButton/KakaoShareButton";
 
 const inter = Inter({ subsets: ["latin"] });
 

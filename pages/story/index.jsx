@@ -1,4 +1,30 @@
+import { AnimationText } from "@/src/components/AnimationText/AnimationText";
+import { useState, useEffect } from "react";
+
 const Index = () => {
+  const [data, setData] = useState(null);
+
+  const fetchData = async (seq) => {
+    const res = await fetch(`http://localhost:3000/api/${seq}`); // 서버에서 데이터를 가져옴
+    const data = await res.json();
+
+    setData(data);
+  };
+
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   const res = await fetch("http://localhost:3000/api/0"); // 서버에서 데이터를 가져옴
+    //   const data = await res.json();
+
+    //   setData(data);
+    // };
+    fetchData(0);
+  }, []);
+
+  if (!data) {
+    return <div>로딩중...</div>;
+  }
+
   return (
     <>
       <div class="relative pt-1">
@@ -18,38 +44,26 @@ const Index = () => {
       <div class="max-w-sm mx-auto">
         <div class="w-full h-96 bg-gray-100 flex items-center justify-center">
           <div class="w-96 h-96 bg-gray-300 flex items-center justify-center">
-            <svg
-              class="w-32 h-32 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-            </svg>
+            <img src={data.picture_uri} />
           </div>
         </div>
       </div>
 
       {/* 자막 */}
-      <h1 class="mx-auto">여기는 자막 자리</h1>
+      <AnimationText textDate={data.content} />
 
       {/* 버튼 */}
       <div class="w-80 mx-auto grid grid-cols-1 gap-4">
-        <button class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded">
-          버튼1
-        </button>
-        <button class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded">
-          버튼2
-        </button>
-        <button class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded">
-          버튼3
-        </button>
-        <button class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded">
-          버튼4
-        </button>
+        {data.next_content_list?.map(({ seq, content }) => (
+          <button
+            onClick={async () => {
+              fetchData(seq);
+            }}
+            class="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded"
+          >
+            {seq}: {content}
+          </button>
+        ))}
       </div>
     </>
   );
