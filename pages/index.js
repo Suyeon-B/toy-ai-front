@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { KakaoShareButton } from "@/src/components/KakaoShareButton/KakaoShareButton";
 
 export default function Home() {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function Home() {
         >
           시작하기
         </button>
+        <KakaoShareButton />
       </div>
     </div>
   );
