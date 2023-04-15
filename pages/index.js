@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 
 export default function Home() {
   const router = useRouter();
+
   return (
     <div class="flex flex-col bg-gray-100 text-black">
       {/* 사진 */}
