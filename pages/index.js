@@ -1,75 +1,25 @@
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
   return (
-    <div class="flex flex-col min-h-screen bg-gray-100 text-black">
-      <header class="flex justify-center items-center">
-        <div>
-          <img class="h-8 w-auto" src="/Logo.svg" alt="로고 이미지" />
-        </div>
-      </header>
-      {/* 프로그레스 바 */}
-      <div class="relative pt-1">
-        <div class="text-right">
-          <span class="text-xs font-semibold inline-block text-blue-600">
-            78%
-          </span>
-        </div>
-        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-primary-light">
-          <div
-            style={{ width: "78%" }}
-            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary transition-all duration-500 ease-out"
-          ></div>
-        </div>
-      </div>
+    <div class="flex flex-col bg-gray-100 text-black">
       {/* 사진 */}
       <div class="max-w-sm mx-auto">
         <div class="w-full h-96 bg-gray-100 flex items-center justify-center">
-          <div class="w-96 h-96 bg-gray-300 flex items-center justify-center">
-            <svg
-              class="w-32 h-32 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-            </svg>
-          </div>
+          <img src="/Start.svg" />
         </div>
       </div>
-
-      {/* 자막 */}
-      <h1 class="mx-auto">여기는 자막 자리</h1>
 
       {/* 버튼 */}
       <div class="w-80 mx-auto grid grid-cols-1 gap-4">
-        <button class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded">
-          버튼1
-        </button>
-        <button class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded">
-          버튼2
-        </button>
-        <button class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded">
-          버튼3
-        </button>
-        <button class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded">
-          버튼4
+        <button
+          class="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded"
+          onClick={() => router.push("/story")}
+        >
+          시작하기
         </button>
       </div>
-      <KakaoShareButton />
-
-      <footer class="bg-gray-300 py-4 mt-auto">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center items-center">
-          <span class="text-gray-600 text-sm">
-            &copy; 2023 책너두 All rights reserved.
-          </span>
-        </div>
-      </footer>
     </div>
   );
 }
