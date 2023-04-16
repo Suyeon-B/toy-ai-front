@@ -14,9 +14,9 @@ const Layout = ({ children }) => {
           content="width=device-width, initial-scale=1, viewport-fit=cover, shrink-to-fit=no"
         />
       </Head>
-      <div className="h-screen min-h-screen flex flex-col bg-gray-100 mx-auto">
+      <div className="h-screen flex flex-col bg-slate-50 overflow-auto">
         <Header />
-        <div className="flex-grow text-black">{children}</div>
+        <div className="w-80 text-black mx-auto my-3">{children}</div>
         <Footer />
       </div>
     </>
