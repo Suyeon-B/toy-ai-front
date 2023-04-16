@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
-import React, { useState, useRef } from "react";
-import getStoryWithInputData from "@/pages/api/getStoryWithInputData";
+import React, { useEffect, useState, useRef } from "react";
+import getStoryWithInputData from "@/src/components/api/getStoryWithInputData";
 
 const CharacterForm = () => {
   const router = useRouter();
   const [numCharacters, setNumCharacters] = useState(1);
   const [characters, setCharacters] = useState([{ name: "", detail: "" }]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [bookId, setBookId] = useState(null);
 
   const nameRefs = useRef([]);
   const roleRefs = useRef([]);
@@ -27,8 +29,7 @@ const CharacterForm = () => {
     });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const getInputData = () => {
     const submitCharacters = characters.filter(
       (character) => character.name && character.detail
     );
@@ -38,13 +39,37 @@ const CharacterForm = () => {
       submitCharacters.length !== 0 &&
       characters.length === submitCharacters.length;
 
+    return { submitCharacters, situation, inputFullyFilled };
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleFetchData();
+  };
+
+  const handleFetchData = async () => {
+    const { submitCharacters, situation, inputFullyFilled } = getInputData();
     if (!inputFullyFilled) {
       alert("모든 입력값을 채워주세요.");
-    } else {
-      router.push("/story");
-      getStoryWithInputData(situation, submitCharacters);
+      return;
     }
+
+    setIsLoading(true);
+
+    const { book_id } = await getStoryWithInputData(
+      submitCharacters,
+      situation
+    );
+    setBookId(book_id);
+    router.push("/story");
   };
+
+  useEffect(() => {
+    if (bookId) {
+      setIsLoading(false);
+      window.localStorage.setItem("bookId", bookId);
+    }
+  }, [bookId]);
 
   const getRolePlaceholders = (type, index) => {
     const names = ["예: 둘리", "예: 주호민", "예: 닛몰캐쉬", "예: 콩알이"];
@@ -60,77 +85,81 @@ const CharacterForm = () => {
 
   return (
     <div className="w-80 mx-auto">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="situations" className="mr-2">
-          상황
-        </label>
-        <textarea
-          type="text"
-          id="situation"
-          name="situation"
-          ref={situationRef}
-          className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
-          placeholder="둘리와 주호민의 민머리왕국 왕위쟁탈전이 시작된다.."
-        />
-        <label htmlFor="numCharacters" className="mr-2">
-          등장인물
-        </label>
-        <select
-          id="numCharacters"
-          name="numCharacters"
-          value={numCharacters}
-          onChange={handleNumChange}
-          className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
-        >
-          {[1, 2, 3, 4].map((num) => (
-            <option key={num} value={num}>
-              {num}
-            </option>
-          ))}
-        </select>
-        {characters.map((character, index) => (
-          <div
-            key={index}
+      {isLoading ? (
+        <p>로딩중 ... </p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="situations" className="mr-2">
+            상황
+          </label>
+          <textarea
+            type="text"
+            id="situation"
+            name="situation"
+            ref={situationRef}
+            className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
+            placeholder="둘리와 주호민의 민머리왕국 왕위쟁탈전이 시작된다.."
+          />
+          <label htmlFor="numCharacters" className="mr-2">
+            등장인물
+          </label>
+          <select
+            id="numCharacters"
+            name="numCharacters"
+            value={numCharacters}
+            onChange={handleNumChange}
             className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
           >
-            <div key={index}>
-              <label htmlFor="numCharacters" className="mr-2 mt-4">
-                이름
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                onChange={(event) => handleInputChange(event, index)}
-                ref={nameRefs.current[index]}
-                className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
-                placeholder={getRolePlaceholders("name", index)}
-              />
-              <label htmlFor="numCharacters" className="mr-2">
-                역할
-              </label>
-              <textarea
-                type="text"
-                id="detail"
-                name="detail"
-                onChange={(event) => handleInputChange(event, index)}
-                ref={roleRefs.current[index]}
-                className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
-                placeholder={getRolePlaceholders("detail", index)}
-              />
+            {[1, 2, 3, 4].map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
+          </select>
+          {characters.map((character, index) => (
+            <div
+              key={index}
+              className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
+            >
+              <div key={index}>
+                <label htmlFor="numCharacters" className="mr-2 mt-4">
+                  이름
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  onChange={(event) => handleInputChange(event, index)}
+                  ref={nameRefs.current[index]}
+                  className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
+                  placeholder={getRolePlaceholders("name", index)}
+                />
+                <label htmlFor="numCharacters" className="mr-2">
+                  역할
+                </label>
+                <textarea
+                  type="text"
+                  id="detail"
+                  name="detail"
+                  onChange={(event) => handleInputChange(event, index)}
+                  ref={roleRefs.current[index]}
+                  className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
+                  placeholder={getRolePlaceholders("detail", index)}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
 
-        <div className="w-80 mx-auto grid grid-cols-1 gap-4">
-          <button
-            type="submit"
-            className="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded my-2.5"
-          >
-            만들기
-          </button>
-        </div>
-      </form>
+          <div className="w-80 mx-auto grid grid-cols-1 gap-4">
+            <button
+              type="submit"
+              className="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded my-2.5"
+            >
+              만들기
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };
