@@ -9,11 +9,14 @@ const Layout = ({ children }) => {
     <>
       <Head>
         <title>킹너두</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover, shrink-to-fit=no"
+        />
       </Head>
-      <div className="flex flex-col h-screen bg-gray-100 mx-auto">
+      <div className="h-screen min-h-screen flex flex-col bg-gray-100 mx-auto">
         <Header />
-        <div className="text-black">{children}</div>
+        <div className="flex-grow text-black">{children}</div>
         <Footer />
       </div>
     </>
