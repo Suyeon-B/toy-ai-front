@@ -27,11 +27,9 @@ const Index = () => {
   return (
     <>
       {/* 사진 */}
-      <div className="max-w-sm mx-auto">
-        <div className="w-full h-96 bg-gray-100 flex items-center justify-center">
-          <div className="w-96 h-96 bg-gray-300 flex items-center justify-center">
-            <img src={data.picture_uri} />
-          </div>
+      <div className="w-full flex items-center justify-center">
+        <div className="w-80 h-80 bg-gray-300 flex items-center justify-center">
+          <img src={data.picture_uri} />
         </div>
       </div>
 

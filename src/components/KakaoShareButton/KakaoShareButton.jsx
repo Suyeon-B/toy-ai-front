@@ -35,7 +35,7 @@ export const KakaoShareButton = () => {
   };
 
   return (
-    <button onClick={shareToKakao} type="button">
+    <button className="w-full py-5" onClick={shareToKakao} type="button">
       카카오톡 공유하기
     </button>
   );
