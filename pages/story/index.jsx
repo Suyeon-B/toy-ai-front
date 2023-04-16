@@ -8,7 +8,9 @@ const Index = () => {
   const [data, setData] = useState(null);
 
   const fetchData = async (seq) => {
-    const res = await fetch(`http://localhost:3000/api/${seq}`); // 서버에서 데이터를 가져옴
+    // const bookId = sessionStorage.getItem("bookId");
+    const bookId = 1;
+    const res = await fetch(`http://127.0.0.1/book/${bookId}/${seq}`); // 서버에서 데이터를 가져옴
     const data = await res.json();
 
     setData(data);
@@ -57,7 +59,7 @@ const Index = () => {
                 fetchData(seq);
               }}
               className="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded"
-              key = {seq}
+              key={seq}
             >
               {seq}: {content}
             </button>
