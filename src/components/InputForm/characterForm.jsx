@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState, useRef } from "react";
-import getStoryWithInputData from "@/src/components/api/getStoryWithInputData";
+import getStartWithInputData from "@/src/components/api/getStartWithInputData";
+import { getCharactersPlaceholders } from "./getCharactersPlaceholders";
+import getFirstStory from "../api/getFirstStory";
 
 const CharacterForm = () => {
   const router = useRouter();
@@ -44,24 +46,41 @@ const CharacterForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleFetchData();
+    if (startStory()) {
+      setFirstStory();
+    }
   };
 
-  const handleFetchData = async () => {
+  const startStory = async () => {
     const { submitCharacters, situation, inputFullyFilled } = getInputData();
     if (!inputFullyFilled) {
       alert("모든 입력값을 채워주세요.");
-      return;
+      return false;
     }
 
-    setIsLoading(true);
+    const data = await getStartWithInputData(situation, submitCharacters);
 
-    const { book_id } = await getStoryWithInputData(
-      submitCharacters,
-      situation
-    );
-    setBookId(book_id);
-    router.push("/story");
+    if (data && data.book_id) {
+      setIsLoading(true);
+      setBookId(data.book_id);
+      return true;
+    }
+
+    return false;
+  };
+
+  const setFirstStory = async () => {
+    const data = await getFirstStory(bookId);
+
+    if (data && data.message === "Success") {
+      setBookId(data.book_id);
+      router.push("/story");
+      // console.log("################");
+      // console.log(data);
+      // console.log("################");
+    }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -70,18 +89,6 @@ const CharacterForm = () => {
       window.localStorage.setItem("bookId", bookId);
     }
   }, [bookId]);
-
-  const getRolePlaceholders = (type, index) => {
-    const names = ["예: 둘리", "예: 주호민", "예: 닛몰캐쉬", "예: 콩알이"];
-    const roles = [
-      "예: 집주인을 괴롭히는 악성 세입자",
-      "예: 유튜브가 '아기'로 착각해 억울한 사람",
-      "예: 독수리를 사랑하는 중국남자",
-      "예: 귀여운 강아지",
-    ];
-
-    return type === "name" ? names[index] : roles[index];
-  };
 
   return (
     <div className="w-80 mx-auto">
@@ -132,7 +139,7 @@ const CharacterForm = () => {
                   onChange={(event) => handleInputChange(event, index)}
                   ref={nameRefs.current[index]}
                   className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
-                  placeholder={getRolePlaceholders("name", index)}
+                  placeholder={getCharactersPlaceholders("name", index)}
                 />
                 <label htmlFor="numCharacters" className="mr-2">
                   역할
@@ -144,7 +151,7 @@ const CharacterForm = () => {
                   onChange={(event) => handleInputChange(event, index)}
                   ref={roleRefs.current[index]}
                   className="w-full border border-gray-300 rounded-md px-2 py-1 mb-5"
-                  placeholder={getRolePlaceholders("detail", index)}
+                  placeholder={getCharactersPlaceholders("detail", index)}
                 />
               </div>
             </div>
