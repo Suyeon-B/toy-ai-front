@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { AnimationText } from "@/src/components/AnimationText/AnimationText";
-import { KakaoShareButton } from "@/src/components/KakaoShareButton/KakaoShareButton";
 import { getStoryBySeq, postContextNum } from "@/src/components/api";
 import { useAtom } from "jotai";
 import { bookIdAtom } from "@/src/stores/story";
@@ -8,15 +7,12 @@ import { seqAtom } from "@/src/stores/story";
 import { storyAtom } from "@/src/stores/story";
 import LoadingWithPercent from "@/src/components/common/loadingWithPercent";
 
-const END_TIMELINE = 5;
+const END_TIMELINE = 6;
 const Index = () => {
   const [bookId] = useAtom(bookIdAtom);
   const [seq, setSeq] = useAtom(seqAtom);
   const [storySeq, setStorySeq] = useAtom(storyAtom);
-
-  if (!storySeq || storySeq[seq] === undefined) {
-    return <LoadingWithPercent />;
-  }
+  const [loading, setIsLoading] = useState(false);
 
   return (
     <>
@@ -45,20 +41,26 @@ const Index = () => {
       {/* 버튼 */}
       {END_TIMELINE !== seq ? (
         <div className="w-80 mx-auto grid grid-cols-1 gap-4">
-          {storySeq[seq].next_content_list.map((content) => (
-            <button
-              onClick={async () => {
-                await postContextNum(bookId, seq, content[0]);
-                const storyData = await getStoryBySeq(bookId, seq+1);
-                setStorySeq([...storySeq, storyData]);
-                setSeq(seq + 1);
-              }}
-              className="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded"
-              key={content[1]}
-            >
-              {content[0]}: {content[1]}
-            </button>
-          ))}
+          {loading ? (
+            <LoadingWithPercent text="나가지 마세요.. 조금만 기다려주세요..." />
+          ) : (
+            storySeq[seq].next_content_list.map((content) => (
+              <button
+                onClick={async () => {
+                  setIsLoading(true);
+                  await postContextNum(bookId, seq, content[0]);
+                  const storyData = await getStoryBySeq(bookId, seq + 1);
+                  setStorySeq([...storySeq, storyData]);
+                  setSeq(seq + 1);
+                  setIsLoading(false);
+                }}
+                className="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded"
+                key={content[1]}
+              >
+                {content[0]}: {content[1]}
+              </button>
+            ))
+          )}
         </div>
       ) : (
         <div>
@@ -68,7 +70,6 @@ const Index = () => {
           <h3>👍공유해주세요</h3>
         </div>
       )}
-      <KakaoShareButton text="카카오톡 공유하기" />
     </>
   );
 };

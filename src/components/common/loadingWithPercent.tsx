@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { KakaoShareButton } from "../KakaoShareButton/KakaoShareButton";
 
-const LoadingWithPercent = () => {
+const LoadingWithPercent = (text) => {
   const [fakePercent, setFakePercent] = useState(0);
   useEffect(() => {
     let start = 0;
@@ -27,7 +27,7 @@ const LoadingWithPercent = () => {
   const loadingText =
     fakePercent < 100
       ? `이야기 생성중...${fakePercent}%`
-      : "곧 이야기가 시작됩니다.";
+      : text;
 
   return (
     <div className="flex flex-col items-center">
