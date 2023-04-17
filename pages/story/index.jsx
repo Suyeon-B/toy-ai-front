@@ -2,6 +2,7 @@ import React from "react";
 import { AnimationText } from "@/src/components/AnimationText/AnimationText";
 import { KakaoShareButton } from "@/src/components/KakaoShareButton/KakaoShareButton";
 import { useState, useEffect } from "react";
+import LoadingWithPercent from "@/src/components/common/loadingWithPercent";
 
 const END_TIMELINE = 5;
 const Index = () => {
@@ -19,7 +20,7 @@ const Index = () => {
   }, []);
 
   if (!data) {
-    return <div>로딩중...</div>;
+    return <LoadingWithPercent />;
   }
 
   return (
@@ -67,7 +68,7 @@ const Index = () => {
           <h3>공유해주세요</h3>
         </div>
       )}
-      <KakaoShareButton />
+      <KakaoShareButton text="카카오톡 공유하기" />
     </>
   );
 };
