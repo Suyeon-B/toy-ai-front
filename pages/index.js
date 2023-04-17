@@ -22,7 +22,7 @@ export default function Home() {
         >
           시작하기
         </button>
-        <KakaoShareButton />
+        <KakaoShareButton text="카카오톡 공유하기" />
       </div>
     </div>
   );

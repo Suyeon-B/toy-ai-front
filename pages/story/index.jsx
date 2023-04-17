@@ -7,6 +7,7 @@ import { useAtom } from "jotai";
 import { bookIdAtom } from "@/src/stores/story";
 import { seqAtom } from "@/src/stores/story";
 import { storyAtom } from "@/src/stores/story";
+import LoadingWithPercent from "@/src/components/common/loadingWithPercent";
 
 const END_TIMELINE = 5;
 const Index = () => {
@@ -24,6 +25,10 @@ const Index = () => {
 
     fetchStoryData();
   }, [bookId]);
+
+  if (!storySeq) {
+    return <LoadingWithPercent />;
+  }
 
   return (
     <>
@@ -70,7 +75,7 @@ const Index = () => {
           <h3>공유해주세요</h3>
         </div>
       )}
-      <KakaoShareButton />
+      <KakaoShareButton text="카카오톡 공유하기" />
     </>
   );
 };
