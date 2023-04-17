@@ -58,11 +58,14 @@ const CharacterForm = () => {
       return false;
     }
 
+    setIsLoading(true);
+
     const data = await getStartWithInputData(situation, submitCharacters);
 
     if (data && data.book_id) {
-      setIsLoading(true);
+      setIsLoading(false);
       setBookId(data.book_id);
+      console.log(data.book_id);
       return true;
     }
 

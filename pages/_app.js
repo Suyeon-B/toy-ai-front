@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import Layout from "@/src/components/layout/Layout";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { Provider } from "jotai";
 
 // eslint-disable-next-line react/prop-types
 export default function App({ Component, pageProps }) {
@@ -18,8 +19,10 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <Provider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </Provider>
   );
 }
