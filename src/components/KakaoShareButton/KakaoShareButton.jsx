@@ -1,10 +1,9 @@
 import React from "react";
-import { useRouter } from "next/router";
 
 // eslint-disable-next-line react/prop-types
 export const KakaoShareButton = ({ text }) => {
-  const route = useRouter();
-  // const link = document.location.href;
+  // const route = useRouter();
+  const link = document.location.href;
 
   const shareToKakao = () => {
     if (!window.Kakao) {
@@ -19,16 +18,16 @@ export const KakaoShareButton = ({ text }) => {
         description: "내가 직접만든 소설",
         imageUrl: "",
         link: {
-          webUrl: "https://www.naver.com/",
-          mobileWebUrl: "https://www.naver.com/",
+          webUrl: link,
+          mobileWebUrl: link,
         },
       },
       buttons: [
         {
           title: "웹으로 이동",
           link: {
-            webUrl: "https://www.naver.com/",
-            mobileWebUrl: "https://www.naver.com/",
+            webUrl: link,
+            mobileWebUrl: link,
           },
         },
       ],

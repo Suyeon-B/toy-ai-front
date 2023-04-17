@@ -5,7 +5,13 @@
       "NEXT_TELEMETRY_DISABLED": "1"
     }
   },
-  "lint": {
-    "ignoreDuringBuilds": true
-  }
+  "ignore": [
+    "node_modules",
+    ".next",
+    ".eslintcache",
+    "coverage",
+    "test",
+    "tests",
+    "src"
+  ]
 }
