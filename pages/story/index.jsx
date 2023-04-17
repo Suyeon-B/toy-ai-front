@@ -19,7 +19,7 @@ const Index = () => {
       {/* 사진 */}
       <div className="w-full flex items-center justify-center">
         <div className="w-80 h-80 bg-gray-300 flex items-center justify-center">
-          <img src={storySeq[seq].image_url} />
+          <img src={storySeq[seq]?.image_url} />
         </div>
       </div>
 
@@ -35,7 +35,7 @@ const Index = () => {
           margin: "16px auto",
         }}
       >
-        <AnimationText text={storySeq[seq].content} />
+        <AnimationText text={storySeq[seq]?.content} />
       </div>
 
       {/* 버튼 */}
@@ -44,7 +44,7 @@ const Index = () => {
           {loading ? (
             <LoadingWithPercent text="나가지 마세요.. 조금만 기다려주세요..." />
           ) : (
-            storySeq[seq].next_content_list.map((content) => (
+            storySeq[seq]?.next_content_list.map((content) => (
               <button
                 onClick={async () => {
                   setIsLoading(true);
