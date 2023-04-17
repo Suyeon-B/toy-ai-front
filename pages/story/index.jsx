@@ -2,25 +2,29 @@ import React from "react";
 import { AnimationText } from "@/src/components/AnimationText/AnimationText";
 import { KakaoShareButton } from "@/src/components/KakaoShareButton/KakaoShareButton";
 import { useState, useEffect } from "react";
+import { fetchBooksByBookId } from "@/src/components/api";
 
-const END_TIMELINE = 5;
+// const END_TIMELINE = 5;
 const Index = () => {
   const [data, setData] = useState(null);
-
-  const fetchData = async (seq) => {
-    // const bookId = sessionStorage.getItem("bookId");
-    const bookId = 1;
-    const res = await fetch(`http://127.0.0.1/book/${bookId}/${seq}`); // 서버에서 데이터를 가져옴
-    const data = await res.json();
-
-    setData(data);
-  };
+  const [bookId, setBookId] = useState(null);
 
   useEffect(() => {
-    fetchData(0);
+    setBookId(window.localStorage.getItem("bookId"));
   }, []);
 
-  if (!data) {
+  useEffect(() => {
+    async function fetchStoryData() {
+      if (bookId) {
+        const storyData = await fetchBooksByBookId(bookId, 0);
+        setData(storyData);
+      }
+    }
+  
+    fetchStoryData();
+  }, [bookId]);
+
+  if (!data && !bookId) {
     return <div>로딩중...</div>;
   }
 
@@ -29,7 +33,7 @@ const Index = () => {
       {/* 사진 */}
       <div className="w-full flex items-center justify-center">
         <div className="w-80 h-80 bg-gray-300 flex items-center justify-center">
-          <img src={data.picture_uri} />
+          {/* <img src={data.picture_uri} /> */}
         </div>
       </div>
 
@@ -45,16 +49,16 @@ const Index = () => {
           margin: "16px auto",
         }}
       >
-        <AnimationText text={data.content} />
+        {/* <AnimationText text={data.content} /> */}
       </div>
 
       {/* 버튼 */}
-      {END_TIMELINE !== data.timeline ? (
+      {/* {END_TIMELINE !== data.timeline ? (
         <div className="w-80 mx-auto grid grid-cols-1 gap-4">
           {data.next_content_list?.map(({ seq, content }) => (
             <button
               onClick={async () => {
-                fetchData(seq);
+                fetchData(bookId, seq);
               }}
               className="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded"
               key={seq}
@@ -68,7 +72,7 @@ const Index = () => {
           <h3>이야기가 끝났어요</h3>
           <h3>공유해주세요</h3>
         </div>
-      )}
+      )} */}
       <KakaoShareButton />
     </>
   );

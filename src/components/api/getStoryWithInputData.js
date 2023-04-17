@@ -4,7 +4,7 @@ export default async function getStoryWithInputData(
   situation,
   submitCharacters
 ) {
-  const res = await fetch("http://127.0.0.1:80/book", {
+  const res = await fetch("http://127.0.0.1:8080/book", {
     method: "POST",
     body: JSON.stringify({
       book: {

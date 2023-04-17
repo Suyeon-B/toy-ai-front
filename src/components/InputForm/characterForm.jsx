@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useState, useRef } from "react";
-import getStoryWithInputData from "@/pages/api/getStoryWithInputData";
+import getStoryWithInputData from "../api/getStoryWithInputData";
 
 const CharacterForm = () => {
   const router = useRouter();
