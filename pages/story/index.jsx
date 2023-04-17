@@ -1,7 +1,6 @@
 import React from "react";
 import { AnimationText } from "@/src/components/AnimationText/AnimationText";
 import { KakaoShareButton } from "@/src/components/KakaoShareButton/KakaoShareButton";
-import { useState, useEffect } from "react";
 import { getStoryBySeq, postContextNum } from "@/src/components/api";
 import { useAtom } from "jotai";
 import { bookIdAtom } from "@/src/stores/story";
@@ -13,20 +12,9 @@ const END_TIMELINE = 5;
 const Index = () => {
   const [bookId] = useAtom(bookIdAtom);
   const [seq, setSeq] = useAtom(seqAtom);
-  const [storySeq] = useAtom(storyAtom);
-  console.log("🚀 ~ file: index.jsx:17 ~ Index ~ storySeq:", storySeq, seq);
+  const [storySeq, setStorySeq] = useAtom(storyAtom);
 
-  useEffect(() => {
-    async function fetchStoryData() {
-      if (bookId !== null) {
-        const storyData = await getStoryBySeq(bookId, seq);
-      }
-    }
-
-    fetchStoryData();
-  }, [bookId]);
-
-  if (!storySeq) {
+  if (!storySeq || storySeq[seq] === undefined) {
     return <LoadingWithPercent />;
   }
 
@@ -60,7 +48,10 @@ const Index = () => {
           {storySeq[seq].next_content_list.map((content) => (
             <button
               onClick={async () => {
-                postContextNum(bookId, seq, content[0]);
+                await postContextNum(bookId, seq, content[0]);
+                const storyData = await getStoryBySeq(bookId, seq+1);
+                setStorySeq([...storySeq, storyData]);
+                setSeq(seq + 1);
               }}
               className="bg-primary hover:bg-primary-deep text-white font-bold py-2 px-4 rounded"
               key={content[1]}
@@ -72,7 +63,9 @@ const Index = () => {
       ) : (
         <div>
           <h3>이야기가 끝났어요</h3>
-          <h3>공유해주세요</h3>
+          <h3>이야기를 끝까지 본 당신 인내심 최고</h3>
+          <h3>사실이건 인내심 챌린지였슴 ㅎㅎ ㅋ;</h3>
+          <h3>👍공유해주세요</h3>
         </div>
       )}
       <KakaoShareButton text="카카오톡 공유하기" />

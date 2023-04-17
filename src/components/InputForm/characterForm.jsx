@@ -4,13 +4,17 @@ import getStartWithInputData from "@/src/components/api/getStartWithInputData";
 import { getCharactersPlaceholders } from "./getCharactersPlaceholders";
 import getFirstStory from "../api/getFirstStory";
 import LoadingWithPercent from "../common/loadingWithPercent";
+import { useAtom } from "jotai";
+import { bookIdAtom } from "@/src/stores/story";
+import { storyAtom } from "@/src/stores/story";
 
 const CharacterForm = () => {
   const router = useRouter();
   const [numCharacters, setNumCharacters] = useState(1);
   const [characters, setCharacters] = useState([{ name: "", detail: "" }]);
   const [isLoading, setIsLoading] = useState(false);
-  const [bookId, setBookId] = useState(null);
+  const [bookId, setBookId] = useAtom(bookIdAtom);
+  const [story, setStory] = useAtom(storyAtom);
 
   const nameRefs = useRef([]);
   const roleRefs = useRef([]);
@@ -45,11 +49,11 @@ const CharacterForm = () => {
     return { submitCharacters, situation, inputFullyFilled };
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (startStory()) {
-      setFirstStory();
-    }
+    const bookId = await startStory();
+
+    setFirstStory(bookId);
   };
 
   const startStory = async () => {
@@ -64,19 +68,24 @@ const CharacterForm = () => {
     const data = await getStartWithInputData(situation, submitCharacters);
 
     if (data && data.book_id) {
-      setBookId(data.book_id);
-      console.log(data.book_id);
-      return true;
+      return data.book_id;
     }
 
     return false;
   };
 
-  const setFirstStory = async () => {
+  const setFirstStory = async (bookId) => {
+    console.log(
+      "🚀 ~ file: characterForm.jsx:80 ~ setFirstStory ~ bookId:",
+      bookId
+    );
     const data = await getFirstStory(bookId);
+    console.log("🚀 ~ file: characterForm.jsx:83 ~ setFirstStory ~ data:", data)
 
-    if (data && data.message === "Success") {
-      setBookId(data.book_id);
+    if (data && data.message === "success") {
+      setBookId(bookId);
+      setStory([...story, data.data]);
+
       router.push("/story");
     }
 
