@@ -163,7 +163,7 @@ const CharacterForm = () => {
         ))}
 
         {isLoading ? (
-          <LoadingWithPercent />
+          <LoadingWithPercent text="곧 이야기가 시작됩니다... 😇"/>
         ) : (
           <div className="w-80 mx-auto grid grid-cols-1 gap-4">
             <button

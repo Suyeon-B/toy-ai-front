@@ -1,15 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
-
+// eslint-disable-next-line no-undef
 module.exports = {
   async rewrites() {
     return [
       {
         source: "/:path*",
-        destination: "http://localhost:8080/:path*",
+        destination: "http://54.180.88.28:8080/:path*",
       },
     ];
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
