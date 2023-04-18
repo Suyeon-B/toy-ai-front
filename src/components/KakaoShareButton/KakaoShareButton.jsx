@@ -6,7 +6,7 @@ export const KakaoShareButton = ({ text }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setLink(document.location.href);
+      setLink(document.location.href+"#share");
     }
   }, []);
 
