@@ -29,7 +29,7 @@ export const KakaoShareButton = ({ text }) => {
       },
       buttons: [
         {
-          title: "웹으로 이동",
+          title: "소설쓰러 가기",
           link: {
             webUrl: link,
             mobileWebUrl: link,
