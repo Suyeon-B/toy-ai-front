@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import getStartWithInputData from "@/src/components/api/getStartWithInputData";
 import { getCharactersPlaceholders } from "./getCharactersPlaceholders";
 import getFirstStory from "../api/getFirstStory";
@@ -13,7 +13,7 @@ const CharacterForm = () => {
   const [numCharacters, setNumCharacters] = useState(1);
   const [characters, setCharacters] = useState([{ name: "", detail: "" }]);
   const [isLoading, setIsLoading] = useState(false);
-  const [bookId, setBookId] = useAtom(bookIdAtom);
+  const [, setBookId] = useAtom(bookIdAtom);
   const [story, setStory] = useAtom(storyAtom);
 
   const nameRefs = useRef([]);
@@ -23,7 +23,17 @@ const CharacterForm = () => {
   const handleNumChange = (event) => {
     const newNumCharacters = parseInt(event.target.value);
     setNumCharacters(newNumCharacters);
-    setCharacters(Array(newNumCharacters).fill({ name: "", detail: "" }));
+
+    if (characters.length > newNumCharacters) {
+      characters.length = newNumCharacters;
+    } else {
+      characters.push(
+        ...Array(newNumCharacters - characters.length).fill({
+          name: "",
+          detail: "",
+        })
+      );
+    }
   };
 
   const handleInputChange = (event, index) => {
@@ -53,11 +63,13 @@ const CharacterForm = () => {
     event.preventDefault();
     const bookId = await startStory();
 
+    if (!bookId) return;
     setFirstStory(bookId);
   };
 
   const startStory = async () => {
     const { submitCharacters, situation, inputFullyFilled } = getInputData();
+
     if (!inputFullyFilled) {
       alert("모든 입력값을 채워주세요.");
       return false;
@@ -71,16 +83,12 @@ const CharacterForm = () => {
       return data.book_id;
     }
 
+    setIsLoading(false);
     return false;
   };
 
   const setFirstStory = async (bookId) => {
-    console.log(
-      "🚀 ~ file: characterForm.jsx:80 ~ setFirstStory ~ bookId:",
-      bookId
-    );
     const data = await getFirstStory(bookId);
-    console.log("🚀 ~ file: characterForm.jsx:83 ~ setFirstStory ~ data:", data)
 
     if (data && data.message === "success") {
       setBookId(bookId);
@@ -91,12 +99,6 @@ const CharacterForm = () => {
 
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    if (bookId) {
-      window.localStorage.setItem("bookId", bookId);
-    }
-  }, [bookId]);
 
   return (
     <div className="w-80 mx-auto">
@@ -163,7 +165,7 @@ const CharacterForm = () => {
         ))}
 
         {isLoading ? (
-          <LoadingWithPercent text="곧 이야기가 시작됩니다... 😇"/>
+          <LoadingWithPercent text="곧 이야기가 시작됩니다... 😇" />
         ) : (
           <div className="w-80 mx-auto grid grid-cols-1 gap-4">
             <button
