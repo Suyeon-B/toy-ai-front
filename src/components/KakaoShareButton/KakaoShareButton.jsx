@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 export const KakaoShareButton = ({ text }) => {
   const [link, setLink] = useState(null);
-  if (typeof window !== "undefined") {
-    setLink(document.location.href);
-  }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setLink(document.location.href);
+    }
+  }, []);
 
   const shareToKakao = () => {
     if (!window.Kakao) {

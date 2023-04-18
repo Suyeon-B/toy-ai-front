@@ -1,6 +1,5 @@
-
 export const getStoryBySeq = async (bookId, seq) => {
-  const res = await fetch(`/book/${bookId}/${seq}`); // 서버에서 데이터를 가져옴
+  const res = await fetch(`/book/${bookId}/${seq}`);
   const data = await res.json();
 
   return data.data;
