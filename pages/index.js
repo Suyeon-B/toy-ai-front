@@ -10,7 +10,7 @@ export default function Home() {
       {/* 사진 */}
       <div className="max-w-sm mx-auto">
         <div className="w-full h-96 flex items-center justify-center">
-          <img src="/Start.svg" />
+          <img src="/Start.png" />
         </div>
       </div>
 
