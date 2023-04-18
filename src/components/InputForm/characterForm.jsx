@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import getStartWithInputData from "@/src/components/api/getStartWithInputData";
 import { getCharactersPlaceholders } from "./getCharactersPlaceholders";
 import getFirstStory from "../api/getFirstStory";
-import LoadingWithPercent from "../common/loadingWithPercent";
+import LoadingWithPercent from "../common/loadingWithPercent.jsx";
 import { useAtom } from "jotai";
 import { bookIdAtom } from "@/src/stores/story";
 import { storyAtom } from "@/src/stores/story";

@@ -21,7 +21,7 @@ export const KakaoShareButton = ({ text }) => {
       content: {
         title: "야 너두 소설 만들 수 있어",
         description: "내가 직접만든 소설",
-        imageUrl: "",
+        imageUrl: "public/kingdo.png",
         link: {
           webUrl: link,
           mobileWebUrl: link,
