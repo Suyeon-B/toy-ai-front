@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { KakaoShareButton } from "../KakaoShareButton/KakaoShareButton";
 
-const LoadingWithPercent = (text) => {
+const LoadingWithPercent = ({text}) => {
   const [fakePercent, setFakePercent] = useState(0);
   useEffect(() => {
     let start = 0;
