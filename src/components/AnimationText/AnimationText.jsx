@@ -5,6 +5,10 @@ export const AnimationText = ({ text, delay = 50 }) => {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  if (!text || typeof text !== "string") {
+    return null;
+  }
+
   useEffect(() => {
     // eslint-disable-next-line react/prop-types
     if (currentIndex < text.length) {
