@@ -6,7 +6,7 @@ export const KakaoShareButton = ({ text }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setLink(document.location.href+"#share");
+      setLink("https://toy-ai-front.vercel.app/");
     }
   }, []);
 
